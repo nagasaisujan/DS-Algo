@@ -1,0 +1,80 @@
+#include<iostream>
+#include<math.h>
+#include<bits/stdc++.h>
+#define ll long long int
+#define hell 1000000007LL
+using namespace std;
+ll power(ll x, ll y){
+    ll z=hell;
+    if(y==0)
+     return 1;
+    else
+    {
+        ll p=power(x,y/2);
+        ll w=(p*p)%z;
+        if(y%2==0)
+         return w;
+        else
+        return (x*w)%z;
+    }}
+ll gcd(ll x,ll y)
+{
+    if(y==0)
+     return x;
+    else
+    return gcd(y,x%y);
+}
+void solve()
+{
+    ll v,e,src=0,ans=0;
+    cin>>v>>e;
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+    vector<pair<ll,ll>>adj[v];
+    map<pair<ll,ll>,ll>mp;
+    for(int i=0;i<e;i++)
+    {
+        ll x,y,w;
+        cin>>x>>y>>w;
+        adj[x-1].push_back(make_pair(y-1,w));
+        adj[y-1].push_back(make_pair(x-1,w));
+        mp[{x-1,y-1}]=w;
+        mp[{y-1,x-1}]=w;
+    }
+    vector<ll>key(v,INT_MAX);
+    vector<ll>parent(v,-1);
+    vector<bool>inMST(v,false);
+    pq.push(make_pair(0,src));
+    key[src]=0;
+   while(!pq.empty())
+    {
+        int u=pq.top().second;
+        pq.pop();
+        inMST[u]=true;
+        for(auto it=adj[u].begin();it!=adj[u].end();it++)
+        {
+            ll v=it->first;
+            ll w=it->second;
+            if(inMST[v]==false&&key[v]>w)
+            {
+                key[v]=w;
+                pq.push(make_pair(key[v],v));
+                parent[v]=u;
+            }
+        }
+    }
+    for(int i=1;i<v;i++)
+    ans=ans+mp[{parent[i],i}];
+   cout<<ans;
+}
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.precision(20);
+    ll t=1;
+   // cin>>t;
+    while(t--)
+    {
+        solve();
+    }
+}
