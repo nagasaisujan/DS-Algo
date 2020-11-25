@@ -1,0 +1,125 @@
+#include<iostream>
+#include<math.h>
+#include<bits/stdc++.h>
+#define ll long long int
+#define hell 1000000007LL
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* next;
+    
+};
+
+void append(Node** head,int data)
+{
+    Node* np=new Node();
+    if(*head==NULL)
+    {
+        np->data=data;
+        *head=np;
+       
+    }
+    else
+    {
+        np->data=data;
+        Node *l=*head;
+        while(l->next!=NULL)
+        l=l->next;
+        l->next=np;
+        //return *head;
+    }
+}
+void front(Node** head,int data)
+{
+    Node* np=new Node();
+    if(*head==NULL)
+    {
+        np->data=data;
+        *head=np;
+    }
+    else
+    {
+        np->data=data;
+        np->next=*head;
+        *head=np;
+    }
+  //  return head;
+}
+
+Node* inserta(Node* temp,int data)
+{
+    if(temp==NULL)
+    {
+       return NULL;
+    }
+    else
+    {
+        Node* np=new Node();
+        np->data=data;
+        np->next=temp->next;
+        temp->next=np;
+        return temp;
+    }
+}
+void del(Node** head,int x)
+{
+  Node* tmp=*head;
+  Node* prev=NULL;
+  if(tmp==NULL)
+  return ;
+  if(tmp->data==x)
+  {
+      *head=tmp->next;
+       delete tmp;
+       return ;
+  }
+  while((tmp!=NULL)&&(tmp->data!=x))
+  {
+      prev=tmp;
+      tmp=tmp->next;
+  }
+ 
+  if(tmp==NULL)
+      return ;
+  if(tmp->next!=NULL)
+   prev->next=tmp->next;
+   else
+   prev->next=NULL;
+  delete tmp;
+  
+}
+void reverse(Node** head)
+{
+    if(head==NULL)
+    return ;
+    Node* prev=NULL;
+    Node* curr=*head;
+    Node* fron=NULL;
+    while(curr!=NULL)
+    {
+        fron=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=fron;
+       
+    }
+    *head=prev;
+}
+
+int main()
+{
+    Node* head=NULL;
+   append(&head,6);
+    front(&head,7);
+   inserta(head,1);
+    append(&head,10);
+   del(&head,8);
+   reverse(&head);
+    while(head!=NULL)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+   
+}
