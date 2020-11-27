@@ -1,0 +1,76 @@
+#include<iostream>
+#include<math.h>
+#include<bits/stdc++.h>
+#define ll long long int
+#define hell 1000000007LL
+using namespace std;
+struct node{
+    int data;
+    node* next;
+};
+void push(node** head,int x)
+{
+    node* ne=new node();
+    ne->data=x;
+    if(*head==NULL)
+    {
+        *head=ne;
+        ne->next=NULL;
+    }
+    else
+    {
+        ne->next=*head;
+        *head=ne;
+    }
+}
+void sortedinsert(node** temp,node* new_node)
+{
+    if(*temp==NULL||((*temp)->data)>new_node->data)
+    {
+        new_node->next=*temp;
+        *temp=new_node;
+    }
+    else
+    {
+        node* x=*temp;
+        while(x->next!=NULL&&x->next->data<new_node->data)
+        {
+            x=x->next;
+        }
+        new_node->next=x->next;
+        x->next=new_node;
+    }
+}
+void insertionsort(node** head)
+{
+    if(*head==NULL)
+    return ;
+    node* temp=NULL;
+    node* curr=*head;
+    while(curr!=NULL)
+    {
+        node* t=curr->next;
+        sortedinsert(&temp,curr);
+        curr=t;
+    }
+    *head=temp;
+    
+}
+
+int main()
+{
+    node* head=NULL;
+    for(int i=1;i<50;i++)
+    {
+        push(&head,i);
+    }
+    insertionsort(&head);
+    while(head!=NULL)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+}
+    
+    
+    
